@@ -23,14 +23,14 @@ public class TreinoResource {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<Treino>> findAll() {
-        List<Treino> list = service.findAll();
+    public ResponseEntity<List<TreinoDTO>> findAll() {
+        List<TreinoDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Treino> findById(@PathVariable Long id) {
-        Treino obj = service.findById(id);
+    public ResponseEntity<TreinoDTO> findById(@PathVariable Long id) {
+        TreinoDTO obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 

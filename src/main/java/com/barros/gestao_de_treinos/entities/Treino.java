@@ -75,6 +75,10 @@ public class Treino implements Serializable {
         this.exercicios = exercicios;
     }
 
+    public void addExercicio(TreinoExercicio exercicio) {
+        this.exercicios.add(exercicio);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

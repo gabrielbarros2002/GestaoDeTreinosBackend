@@ -1,5 +1,6 @@
 package com.barros.gestao_de_treinos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -56,6 +57,7 @@ public class ExercicioSerie implements Serializable {
         this.id = id;
     }
 
+    @JsonIgnore
     public TreinoExercicio getTreinoExercicio() {
         return treinoExercicio;
     }

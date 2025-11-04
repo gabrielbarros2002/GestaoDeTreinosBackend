@@ -1,10 +1,13 @@
 package com.barros.gestao_de_treinos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.barros.gestao_de_treinos.utils.Util.iniciarAtributosEmBranco;
@@ -27,7 +30,7 @@ public class TreinoExercicio implements Serializable {
     @JoinColumn(name = "exercicio_id", foreignKey = @ForeignKey(name = "fk_treinoexercicio_exercicio"))
     private Exercicio exercicio;
 
-    @NotNull(message = "O número de séries é obrigatório")
+    @NotNull(message = "A ordem da série é obrigatória")
     @Min(value = 1, message = "Deve ter pelo menos 1 série")
     @Column(nullable = false)
     private Integer ordem;
@@ -39,17 +42,23 @@ public class TreinoExercicio implements Serializable {
     @Column
     private String observacao;
 
+    @NotNull(message = "O exercício deve ter pelo menos uma série")
+    @OneToMany(mappedBy = "treinoExercicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExercicioSerie> series = new ArrayList<>();
+
     public TreinoExercicio() {
         iniciarAtributosEmBranco(this);
     }
 
-    public TreinoExercicio(Long id, Treino treino, Exercicio exercicio, Integer ordem, Integer descansoSegundos, String observacao) {
+    public TreinoExercicio(Long id, Treino treino, Exercicio exercicio, Integer ordem, Integer descansoSegundos,
+            String observacao) {
         this.id = id;
         this.treino = treino;
         this.exercicio = exercicio;
         this.ordem = ordem;
         this.descansoSegundos = descansoSegundos;
         this.observacao = observacao;
+        this.series = new ArrayList<>();
     }
 
     public Long getId() {
@@ -60,6 +69,7 @@ public class TreinoExercicio implements Serializable {
         this.id = id;
     }
 
+    @JsonIgnore
     public Treino getTreino() {
         return treino;
     }
@@ -98,6 +108,18 @@ public class TreinoExercicio implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public List<ExercicioSerie> getSeries() {
+        return series;
+    }
+
+    public void setSeries(List<ExercicioSerie> series) {
+        this.series = series;
+    }
+
+    public void addSerie(ExercicioSerie serie) {
+        this.series.add(serie);
     }
 
     @Override

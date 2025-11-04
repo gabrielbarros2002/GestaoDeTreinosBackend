@@ -1,18 +1,31 @@
 package com.barros.gestao_de_treinos.DTOs;
 
+import java.util.List;
+
 import static com.barros.gestao_de_treinos.utils.Util.iniciarAtributosEmBranco;
 
 public class TreinoExercicioDTO {
 
+    private Long id;
     private Long idTreino;
     private Long idExercicio;
     private String nomeExercicio;
     private String nomeGrupoMuscular;
-    private Integer series;
-    private Integer repeticoes;
+    private Integer ordem;
+    private Integer descansoSegundos;
+    private String observacao;
+    private List<ExercicioSerieDTO> series;
 
     public TreinoExercicioDTO() {
         iniciarAtributosEmBranco(this);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getIdTreino() {
@@ -47,19 +60,35 @@ public class TreinoExercicioDTO {
         this.nomeGrupoMuscular = nomeGrupoMuscular;
     }
 
-    public Integer getSeries() {
+    public Integer getOrdem() {
+        return ordem;
+    }
+
+    public void setOrdem(Integer ordem) {
+        this.ordem = ordem;
+    }
+
+    public Integer getDescansoSegundos() {
+        return descansoSegundos;
+    }
+
+    public void setDescansoSegundos(Integer descansoSegundos) {
+        this.descansoSegundos = descansoSegundos;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public List<ExercicioSerieDTO> getSeries() {
         return series;
     }
 
-    public void setSeries(Integer series) {
+    public void setSeries(List<ExercicioSerieDTO> series) {
         this.series = series;
-    }
-
-    public Integer getRepeticoes() {
-        return repeticoes;
-    }
-
-    public void setRepeticoes(Integer repeticoes) {
-        this.repeticoes = repeticoes;
     }
 }

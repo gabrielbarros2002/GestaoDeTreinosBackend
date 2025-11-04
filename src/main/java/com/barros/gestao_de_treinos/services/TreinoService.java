@@ -20,6 +20,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,40 +36,22 @@ public class TreinoService {
     @Autowired
     private ExercicioRepository exercicioRepository;
 
-    public List<Treino> findAll() {
-        return repository.findAll();
+    public List<TreinoDTO> findAll() {
+        List<Treino> treinoList = repository.findAll();
+        return treinoList.stream().map(TreinoMapper::toDTO).toList();
     }
 
-    public Treino findById(Long id) {
-        Optional<Treino> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+    public TreinoDTO findById(Long id) {
+        Treino obj = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return TreinoMapper.toDTO(obj);
     }
 
     @Transactional
     public TreinoDTO insert(TreinoDTO dto) {
-        Usuario instrutor = usuarioRepository.findById(dto.getIdInstrutor())
-                .orElseThrow(() -> new ResourceNotFoundException(dto.getIdInstrutor()));
-
-        Treino treino = TreinoMapper.toEntity(dto);
-        treino.setExercicios(new ArrayList<>());
-        treino = repository.save(treino);
-
-        Treino finalTreino = treino;
-        List<TreinoExercicio> exercicios = dto.getExercicios().stream().map(teDto -> {
-            Exercicio exercicio = exercicioRepository.findById(teDto.getIdExercicio())
-                    .orElseThrow(() -> new ResourceNotFoundException(teDto.getIdExercicio()));
-            return TreinoExercicioMapper.toEntity(teDto, finalTreino, exercicio);
-        }).toList();
-
-        treino.setExercicios(exercicios);
-        treino = repository.save(treino);
-
-        TreinoDTO retorno = TreinoMapper.toDTO(treino);
-        List<TreinoExercicioDTO> exerciciosDTO = treino.getExercicios().stream()
-                .map(TreinoExercicioMapper::toDTO)
-                .collect(Collectors.toList());
-        retorno.setExercicios(exerciciosDTO);
-        return retorno;
+        dto.setDataCriacao(LocalDate.now());
+        Treino entity = TreinoMapper.toEntity(dto);
+        Treino novoTreino = repository.save(entity);
+        return TreinoMapper.toDTO(novoTreino);
     }
 
     public void delete(Long id) {
@@ -92,29 +75,10 @@ public class TreinoService {
 
     private TreinoDTO updateData(Treino entity, TreinoDTO dto) {
         entity.setNome(dto.getNomeTreino());
+        entity.setExercicios(dto.getExercicios().stream().map(TreinoExercicioMapper::toEntity).toList());
 
-        Set<TreinoExercicio> novosExercicios = Optional.ofNullable(dto.getExercicios())
-                .orElseThrow(() -> new RuntimeException("Exercícios não foram enviados"))
-                .stream()
-                .map(teDto -> {
-                    Exercicio exercicio = exercicioRepository.findById(teDto.getIdExercicio())
-                            .orElseThrow(() -> new ResourceNotFoundException(teDto.getIdExercicio()));
-                    return TreinoExercicioMapper.toEntity(teDto, entity, exercicio);
-                })
-                .collect(Collectors.toSet());
-
-        entity.getExercicios().clear();
-        entity.getExercicios().addAll(novosExercicios);
-
-        Treino atualizado = repository.save(entity);
-
-        TreinoDTO retorno = TreinoMapper.toDTO(atualizado);
-        List<TreinoExercicioDTO> exerciciosDTO = atualizado.getExercicios().stream()
-                .map(TreinoExercicioMapper::toDTO)
-                .collect(Collectors.toList());
-        retorno.setExercicios(exerciciosDTO);
-
-        return retorno;
+        repository.save(entity);
+        return TreinoMapper.toDTO(entity);
     }
 
 }

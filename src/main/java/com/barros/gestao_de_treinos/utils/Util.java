@@ -49,4 +49,12 @@ public class Util {
             }
         }
     }
+
+    public static Boolean temValor(Long valor) {
+        return valor != null && valor > 0;
+    }
+
+    public static Boolean naoTemValor(Long valor) {
+        return !temValor(valor);
+    }
 }
