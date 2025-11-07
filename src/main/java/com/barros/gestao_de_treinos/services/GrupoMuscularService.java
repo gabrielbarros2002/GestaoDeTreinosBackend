@@ -1,6 +1,8 @@
 package com.barros.gestao_de_treinos.services;
 
+import com.barros.gestao_de_treinos.DTOs.GrupoMuscularDTO;
 import com.barros.gestao_de_treinos.entities.GrupoMuscular;
+import com.barros.gestao_de_treinos.mappers.GrupoMuscularMapper;
 import com.barros.gestao_de_treinos.repositories.GrupoMuscularRepository;
 import com.barros.gestao_de_treinos.services.exceptions.DatabaseException;
 import com.barros.gestao_de_treinos.services.exceptions.ResourceNotFoundException;
@@ -11,7 +13,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GrupoMuscularService {
@@ -19,17 +20,19 @@ public class GrupoMuscularService {
     @Autowired
     private GrupoMuscularRepository repository;
 
-    public List<GrupoMuscular> findAll() {
-        return repository.findAll();
+    public List<GrupoMuscularDTO> findAll() {
+        List<GrupoMuscular> grupoMuscularList = repository.findAll();
+        return grupoMuscularList.stream().map(GrupoMuscularMapper::toDTO).toList();
     }
 
-    public GrupoMuscular findById(Long id) {
-        Optional<GrupoMuscular> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+    public GrupoMuscularDTO findById(Long id) {
+        GrupoMuscular entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return GrupoMuscularMapper.toDTO(entity);
     }
 
-    public GrupoMuscular insert(GrupoMuscular obj) {
-        return repository.save(obj);
+    public GrupoMuscularDTO insert(GrupoMuscularDTO obj) {
+        GrupoMuscular entity = repository.save(GrupoMuscularMapper.toEntity(obj));
+        return GrupoMuscularMapper.toDTO(entity);
     }
 
     public void delete(Long id) {
@@ -42,17 +45,18 @@ public class GrupoMuscularService {
         }
     }
 
-    public GrupoMuscular update(Long id, GrupoMuscular obj) {
+    public GrupoMuscularDTO update(Long id, GrupoMuscularDTO obj) {
         try {
             GrupoMuscular entity = repository.getReferenceById(id);
             updateData(entity, obj);
-            return repository.save(entity);
+            GrupoMuscular entityAtualizada = repository.save(entity);
+            return GrupoMuscularMapper.toDTO(entityAtualizada);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(id);
         }
     }
 
-    private void updateData(GrupoMuscular entity, GrupoMuscular obj) {
+    private void updateData(GrupoMuscular entity, GrupoMuscularDTO obj) {
         entity.setNome(obj.getNome());
     }
 }

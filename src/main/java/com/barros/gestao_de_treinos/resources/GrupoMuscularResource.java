@@ -1,6 +1,6 @@
 package com.barros.gestao_de_treinos.resources;
 
-import com.barros.gestao_de_treinos.entities.GrupoMuscular;
+import com.barros.gestao_de_treinos.DTOs.GrupoMuscularDTO;
 import com.barros.gestao_de_treinos.services.GrupoMuscularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +18,19 @@ public class GrupoMuscularResource {
     private GrupoMuscularService service;
 
     @GetMapping
-    public ResponseEntity<List<GrupoMuscular>> findAll() {
-        List<GrupoMuscular> list = service.findAll();
+    public ResponseEntity<List<GrupoMuscularDTO>> findAll() {
+        List<GrupoMuscularDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<GrupoMuscular> findById(@PathVariable Long id) {
-        GrupoMuscular obj = service.findById(id);
+    public ResponseEntity<GrupoMuscularDTO> findById(@PathVariable Long id) {
+        GrupoMuscularDTO obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
-    public ResponseEntity<GrupoMuscular> insert(@RequestBody GrupoMuscular obj) {
+    public ResponseEntity<GrupoMuscularDTO> insert(@RequestBody GrupoMuscularDTO obj) {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
@@ -43,7 +43,7 @@ public class GrupoMuscularResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<GrupoMuscular> update(@PathVariable Long id, @RequestBody GrupoMuscular obj) {
+    public ResponseEntity<GrupoMuscularDTO> update(@PathVariable Long id, @RequestBody GrupoMuscularDTO obj) {
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
