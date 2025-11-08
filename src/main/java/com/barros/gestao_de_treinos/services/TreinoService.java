@@ -14,6 +14,7 @@ import com.barros.gestao_de_treinos.repositories.UsuarioRepository;
 import com.barros.gestao_de_treinos.services.exceptions.DatabaseException;
 import com.barros.gestao_de_treinos.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,7 +47,7 @@ public class TreinoService {
         return TreinoMapper.toDTO(obj);
     }
 
-    @Transactional
+    @Transient
     public TreinoDTO insert(TreinoDTO dto) {
         dto.setDataCriacao(LocalDate.now());
         Treino entity = TreinoMapper.toEntity(dto);
