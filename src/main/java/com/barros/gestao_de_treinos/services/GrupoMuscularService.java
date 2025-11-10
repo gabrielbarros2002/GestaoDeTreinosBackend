@@ -20,13 +20,16 @@ public class GrupoMuscularService {
     @Autowired
     private GrupoMuscularRepository repository;
 
+    public static final String MSG_NAO_ENCONTRADO = "Grupo muscular não encontrado. Id = ";
+
     public List<GrupoMuscularDTO> findAll() {
         List<GrupoMuscular> grupoMuscularList = repository.findAll();
         return grupoMuscularList.stream().map(GrupoMuscularMapper::toDTO).toList();
     }
 
     public GrupoMuscularDTO findById(Long id) {
-        GrupoMuscular entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        GrupoMuscular entity = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
         return GrupoMuscularMapper.toDTO(entity);
     }
 
@@ -39,7 +42,7 @@ public class GrupoMuscularService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
@@ -52,7 +55,7 @@ public class GrupoMuscularService {
             GrupoMuscular entityAtualizada = repository.save(entity);
             return GrupoMuscularMapper.toDTO(entityAtualizada);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         }
     }
 

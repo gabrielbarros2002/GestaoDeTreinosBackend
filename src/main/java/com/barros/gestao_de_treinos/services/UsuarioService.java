@@ -1,6 +1,5 @@
 package com.barros.gestao_de_treinos.services;
 
-import com.barros.gestao_de_treinos.entities.Treino;
 import com.barros.gestao_de_treinos.entities.Usuario;
 import com.barros.gestao_de_treinos.repositories.TreinoRepository;
 import com.barros.gestao_de_treinos.repositories.UsuarioRepository;
@@ -12,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +23,15 @@ public class UsuarioService {
     @Autowired
     private TreinoRepository treinoRepository;
 
+    public static final String MSG_NAO_ENCONTRADO = "Usuário não encontrado. Id = ";
+
     public List<Usuario> findAll() {
         return repository.findAll();
     }
 
     public Usuario findById(Long id) {
         Optional<Usuario> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
     }
 
     public Usuario insert(Usuario obj) {
@@ -42,7 +42,7 @@ public class UsuarioService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
@@ -54,7 +54,7 @@ public class UsuarioService {
             updateData(entity, obj);
             return repository.save(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage(), e);

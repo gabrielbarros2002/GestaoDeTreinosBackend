@@ -15,12 +15,14 @@ public class TreinoExercicioService {
     @Autowired
     private TreinoExercicioRepository respository;
 
+    public static final String MSG_NAO_ENCONTRADO = "Treino/Exercício não encontrado. Id = ";
+
     public List<TreinoExercicio> findAll() {
         return respository.findAll();
     }
 
     public TreinoExercicio findById(Long id) {
         Optional<TreinoExercicio> obj = respository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
     }
 }

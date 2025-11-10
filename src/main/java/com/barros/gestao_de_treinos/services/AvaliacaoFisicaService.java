@@ -19,13 +19,15 @@ public class AvaliacaoFisicaService {
     @Autowired
     private AvaliacaoFisicaRepository repository;
 
+    public static final String MSG_NAO_ENCONTRADO = "Avaliação física não encontrada. Id = ";
+
     public List<AvaliacaoFisica> findAll() {
         return repository.findAll();
     }
 
     public AvaliacaoFisica findById(Long id) {
         Optional<AvaliacaoFisica> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
     }
 
     public AvaliacaoFisica insert(AvaliacaoFisica obj) {
@@ -36,7 +38,7 @@ public class AvaliacaoFisicaService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
@@ -48,7 +50,7 @@ public class AvaliacaoFisicaService {
             updateData(entity, obj);
             return repository.save(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         }
     }
 

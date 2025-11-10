@@ -5,10 +5,10 @@ import com.barros.gestao_de_treinos.entities.Exercicio;
 import com.barros.gestao_de_treinos.entities.GrupoMuscular;
 import com.barros.gestao_de_treinos.mappers.ExercicioMapper;
 import com.barros.gestao_de_treinos.repositories.ExercicioRepository;
+import com.barros.gestao_de_treinos.repositories.GrupoMuscularRepository;
 import com.barros.gestao_de_treinos.services.exceptions.DatabaseException;
 import com.barros.gestao_de_treinos.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,7 +16,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,13 +24,19 @@ public class ExercicioService {
     @Autowired
     private ExercicioRepository repository;
 
+    @Autowired
+    private GrupoMuscularRepository grupoMuscularRepository;
+
+    public static final String MSG_NAO_ENCONTRADO = "Exercício não encontrado. Id = ";
+
     public List<ExercicioDTO> findAll() {
         List<Exercicio> exercicioList = repository.findAll();
         return exercicioList.stream().map(ExercicioMapper::toDTO).toList();
     }
 
     public ExercicioDTO findById(Long id) {
-        Exercicio entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Exercicio entity = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
         return ExercicioMapper.toDTO(entity);
     }
 
@@ -44,7 +49,7 @@ public class ExercicioService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
@@ -52,12 +57,13 @@ public class ExercicioService {
 
     public ExercicioDTO update(Long id, ExercicioDTO obj) {
         try {
-            Exercicio entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+            Exercicio entity = repository.findById(id).orElseThrow(
+                    () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
             updateData(entity, obj);
-            entity = repository.save(entity);
+            repository.save(entity);
             return findById(id);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
         }
     }
 
@@ -65,7 +71,9 @@ public class ExercicioService {
         entity.setNome(obj.getNome());
         entity.setDescricao(obj.getDescricao());
 
-        GrupoMuscular grupoMuscular = new GrupoMuscular();
+        Long idGrupoMuscular = obj.getIdGrupoMuscular();
+        GrupoMuscular grupoMuscular = grupoMuscularRepository.findById(idGrupoMuscular).orElseThrow(
+                () -> new ResourceNotFoundException(GrupoMuscularService.MSG_NAO_ENCONTRADO + idGrupoMuscular));
         grupoMuscular.setId(obj.getIdGrupoMuscular());
         grupoMuscular.setNome(obj.getNomeGrupoMuscular());
         entity.setGrupoMuscular(grupoMuscular);
