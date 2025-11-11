@@ -74,8 +74,6 @@ public class ExercicioService {
         Long idGrupoMuscular = obj.getIdGrupoMuscular();
         GrupoMuscular grupoMuscular = grupoMuscularRepository.findById(idGrupoMuscular).orElseThrow(
                 () -> new ResourceNotFoundException(GrupoMuscularService.MSG_NAO_ENCONTRADO + idGrupoMuscular));
-        grupoMuscular.setId(obj.getIdGrupoMuscular());
-        grupoMuscular.setNome(obj.getNomeGrupoMuscular());
         entity.setGrupoMuscular(grupoMuscular);
     }
 }

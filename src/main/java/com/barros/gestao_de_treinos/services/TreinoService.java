@@ -1,23 +1,30 @@
 package com.barros.gestao_de_treinos.services;
 
+import com.barros.gestao_de_treinos.DTOs.ExercicioSerieDTO;
 import com.barros.gestao_de_treinos.DTOs.TreinoDTO;
+import com.barros.gestao_de_treinos.DTOs.TreinoExercicioDTO;
+import com.barros.gestao_de_treinos.entities.Exercicio;
+import com.barros.gestao_de_treinos.entities.ExercicioSerie;
 import com.barros.gestao_de_treinos.entities.Treino;
-import com.barros.gestao_de_treinos.mappers.TreinoExercicioMapper;
+import com.barros.gestao_de_treinos.entities.TreinoExercicio;
 import com.barros.gestao_de_treinos.mappers.TreinoMapper;
 import com.barros.gestao_de_treinos.repositories.ExercicioRepository;
+import com.barros.gestao_de_treinos.repositories.ExercicioSerieRepository;
+import com.barros.gestao_de_treinos.repositories.TreinoExercicioRepository;
 import com.barros.gestao_de_treinos.repositories.TreinoRepository;
-import com.barros.gestao_de_treinos.repositories.UsuarioRepository;
 import com.barros.gestao_de_treinos.services.exceptions.DatabaseException;
 import com.barros.gestao_de_treinos.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.barros.gestao_de_treinos.utils.Util.naoTemValor;
+import static com.barros.gestao_de_treinos.utils.Util.temValor;
 
 @Service
 public class TreinoService {
@@ -26,10 +33,13 @@ public class TreinoService {
     private TreinoRepository repository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private ExercicioRepository exercicioRepository;
 
     @Autowired
-    private ExercicioRepository exercicioRepository;
+    private ExercicioSerieRepository exercicioSerieRepository;
+
+    @Autowired
+    private TreinoExercicioRepository treinoExercicioRepository;
 
     public static final String MSG_NAO_ENCONTRADO = "Treino não encontrado. Id = ";
 
@@ -43,12 +53,9 @@ public class TreinoService {
         return TreinoMapper.toDTO(obj);
     }
 
-    @Transient
     public TreinoDTO insert(TreinoDTO dto) {
-        dto.setDataCriacao(LocalDate.now());
-        Treino entity = TreinoMapper.toEntity(dto);
-        Treino novoTreino = repository.save(entity);
-        return TreinoMapper.toDTO(novoTreino);
+        Treino novoTreino = gravarTreino(null, dto, true);
+        return findById(novoTreino.getId());
     }
 
     public void delete(Long id) {
@@ -62,20 +69,78 @@ public class TreinoService {
     }
 
     public TreinoDTO update(Long id, TreinoDTO obj) {
-        try {
-            Treino entity = repository.getReferenceById(id);
-            return updateData(entity, obj);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id);
-        }
+        obj.setIdTreino(id);
+        Treino treinoAtualizado = gravarTreino(id, obj, false);
+        return findById(treinoAtualizado.getId());
     }
 
-    private TreinoDTO updateData(Treino entity, TreinoDTO dto) {
-        entity.setNome(dto.getNomeTreino());
-        entity.setExercicios(dto.getExercicios().stream().map(TreinoExercicioMapper::toEntity).toList());
+    private Treino gravarTreino(Long idTreino, TreinoDTO dto, Boolean insercao) {
+        Treino treino;
+        if (insercao) {
+            treino = new Treino();
+            treino.setId(null);
+            treino.setDataCriacao(LocalDate.now());
+        } else {
+            treino = repository.findById(idTreino).orElseThrow(
+                    () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + idTreino));
+        }
 
-        repository.save(entity);
-        return TreinoMapper.toDTO(entity);
+        treino.setNome(dto.getNomeTreino());
+        treino.setExercicios(new ArrayList<>());
+        for (TreinoExercicioDTO treinoExercicioDTO : dto.getExercicios()) {
+            TreinoExercicio treinoExercicio = criarTreinoExercicio(treino, treinoExercicioDTO, insercao);
+            treino.addExercicio(treinoExercicio);
+
+            for (ExercicioSerieDTO serieDTO : treinoExercicioDTO.getSeries()) {
+                ExercicioSerie exercicioSerie = criarExercicioSerie(treinoExercicio, serieDTO, insercao);
+                treinoExercicio.addSerie(exercicioSerie);
+            }
+        }
+
+        return repository.save(treino);
+    }
+
+    private TreinoExercicio criarTreinoExercicio(Treino treino, TreinoExercicioDTO treinoExercicioDTO, Boolean insercao) {
+        TreinoExercicio treinoExercicio;
+        Long idTreinoExercicio = treinoExercicioDTO.getId();
+        if (insercao || naoTemValor(idTreinoExercicio)) {
+            treinoExercicio = new TreinoExercicio();
+            treinoExercicio.setId(null);
+        } else {
+            treinoExercicio = treinoExercicioRepository.findById(idTreinoExercicio).orElseThrow(
+                    () -> new ResourceNotFoundException(TreinoExercicioService.MSG_NAO_ENCONTRADO + idTreinoExercicio));
+        }
+
+        treinoExercicio.setTreino(treino);
+
+        Long idExercicio = treinoExercicioDTO.getIdExercicio();
+        Exercicio exercicio = exercicioRepository.findById(idExercicio).orElseThrow(
+                () -> new ResourceNotFoundException(ExercicioService.MSG_NAO_ENCONTRADO + idExercicio));
+
+        treinoExercicio.setExercicio(exercicio);
+        treinoExercicio.setOrdem(treinoExercicioDTO.getOrdem());
+        treinoExercicio.setDescansoSegundos(treinoExercicioDTO.getDescansoSegundos());
+
+        return treinoExercicio;
+    }
+
+    private ExercicioSerie criarExercicioSerie(TreinoExercicio treinoExercicio, ExercicioSerieDTO serieDTO, Boolean insercao) {
+        ExercicioSerie exercicioSerie;
+        Long idExercicioSerie = serieDTO.getId();
+        if (insercao || naoTemValor(serieDTO.getId())) {
+            exercicioSerie = new ExercicioSerie();
+            exercicioSerie.setId(null);
+        } else {
+            exercicioSerie = exercicioSerieRepository.findById(idExercicioSerie).orElseThrow(
+                    () -> new ResourceNotFoundException(ExercicioSerieService.MSG_NAO_ENCONTRADO + idExercicioSerie));
+        }
+
+        exercicioSerie.setNumSerie(serieDTO.getNumSerie());
+        exercicioSerie.setCarga(serieDTO.getCarga());
+        exercicioSerie.setRepeticoes(serieDTO.getRepeticoes());
+        exercicioSerie.setTreinoExercicio(treinoExercicio);
+
+        return exercicioSerie;
     }
 
 }
