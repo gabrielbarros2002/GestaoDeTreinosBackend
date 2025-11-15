@@ -36,6 +36,7 @@ public class TestConfig implements CommandLineRunner {
 
         // 1. Criar usuário
         Usuario usuario1 = new Usuario(null, "Gabriel Barros", "gabriel.barros@email.com", "senha1234", LocalDate.of(2025, 10, 25));
+        usuarioRepository.save(usuario1);
 
 
         // 2. Criar grupos musculares
