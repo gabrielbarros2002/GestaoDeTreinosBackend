@@ -31,9 +31,8 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 50)
     private String senha;
 
-    @NotNull(message = "A data de nascimento é obrigatória")
     @Past(message = "A data de nascimento deve ser no passado")
-    @Column(nullable = false)
+    @Column()
     private LocalDate dataNascimento;
 
     public Usuario() {
