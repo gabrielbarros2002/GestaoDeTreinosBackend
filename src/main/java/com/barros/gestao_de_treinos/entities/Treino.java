@@ -31,7 +31,7 @@ public class Treino implements Serializable {
 
     @NotNull(message = "O treino deve pelo menos um exercício")
     @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TreinoExercicio> exercicios;
+    private List<TreinoExercicio> exercicios = new ArrayList<>();
 
     public Treino() {
     }

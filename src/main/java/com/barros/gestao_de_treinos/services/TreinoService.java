@@ -86,7 +86,7 @@ public class TreinoService {
         }
 
         treino.setNome(dto.getNomeTreino());
-        treino.setExercicios(new ArrayList<>());
+        treino.getExercicios().clear();
         for (TreinoExercicioDTO treinoExercicioDTO : dto.getExercicios()) {
             TreinoExercicio treinoExercicio = criarTreinoExercicio(treino, treinoExercicioDTO, insercao);
             treino.addExercicio(treinoExercicio);
