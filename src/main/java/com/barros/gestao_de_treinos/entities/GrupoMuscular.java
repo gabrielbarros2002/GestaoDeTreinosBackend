@@ -1,12 +1,10 @@
 package com.barros.gestao_de_treinos.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 @Entity

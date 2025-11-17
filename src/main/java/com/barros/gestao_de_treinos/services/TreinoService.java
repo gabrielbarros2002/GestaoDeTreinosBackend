@@ -20,11 +20,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.barros.gestao_de_treinos.utils.Util.naoTemValor;
-import static com.barros.gestao_de_treinos.utils.Util.temValor;
 
 @Service
 public class TreinoService {

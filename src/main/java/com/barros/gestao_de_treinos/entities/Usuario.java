@@ -1,12 +1,14 @@
 package com.barros.gestao_de_treinos.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")

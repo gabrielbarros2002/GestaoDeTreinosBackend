@@ -105,6 +105,10 @@ public class ExecucaoTreinoExercicio implements Serializable {
         this.series = series;
     }
 
+    public void addSerie(ExecucaoExercicioSerie serie) {
+        this.series.add(serie);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

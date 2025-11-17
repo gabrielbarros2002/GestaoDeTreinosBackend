@@ -1,18 +1,17 @@
 package com.barros.gestao_de_treinos.services;
 
+import com.barros.gestao_de_treinos.DTOs.ExecucaoExercicioSerieDTO;
 import com.barros.gestao_de_treinos.DTOs.ExecucaoTreinoDTO;
-import com.barros.gestao_de_treinos.DTOs.ExercicioSerieDTO;
-import com.barros.gestao_de_treinos.DTOs.TreinoDTO;
-import com.barros.gestao_de_treinos.DTOs.TreinoExercicioDTO;
+import com.barros.gestao_de_treinos.DTOs.ExecucaoTreinoExercicioDTO;
+import com.barros.gestao_de_treinos.entities.ExecucaoExercicioSerie;
+import com.barros.gestao_de_treinos.entities.ExecucaoTreino;
+import com.barros.gestao_de_treinos.entities.ExecucaoTreinoExercicio;
 import com.barros.gestao_de_treinos.entities.Exercicio;
-import com.barros.gestao_de_treinos.entities.ExercicioSerie;
-import com.barros.gestao_de_treinos.entities.Treino;
-import com.barros.gestao_de_treinos.entities.TreinoExercicio;
-import com.barros.gestao_de_treinos.mappers.TreinoMapper;
+import com.barros.gestao_de_treinos.mappers.ExecucaoTreinoMapper;
+import com.barros.gestao_de_treinos.repositories.ExecucaoExercicioSerieRepository;
+import com.barros.gestao_de_treinos.repositories.ExecucaoTreinoExercicioRepository;
+import com.barros.gestao_de_treinos.repositories.ExecucaoTreinoRepository;
 import com.barros.gestao_de_treinos.repositories.ExercicioRepository;
-import com.barros.gestao_de_treinos.repositories.ExercicioSerieRepository;
-import com.barros.gestao_de_treinos.repositories.TreinoExercicioRepository;
-import com.barros.gestao_de_treinos.repositories.TreinoRepository;
 import com.barros.gestao_de_treinos.services.exceptions.DatabaseException;
 import com.barros.gestao_de_treinos.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.barros.gestao_de_treinos.utils.Util.naoTemValor;
@@ -29,31 +28,31 @@ import static com.barros.gestao_de_treinos.utils.Util.naoTemValor;
 public class ExecucaoTreinoService {
 
     @Autowired
-    private TreinoRepository repository;
+    private ExecucaoTreinoRepository repository;
 
     @Autowired
     private ExercicioRepository exercicioRepository;
 
     @Autowired
-    private ExercicioSerieRepository exercicioSerieRepository;
+    private ExecucaoExercicioSerieRepository exercicioSerieRepository;
 
     @Autowired
-    private TreinoExercicioRepository treinoExercicioRepository;
+    private ExecucaoTreinoExercicioRepository treinoExercicioRepository;
 
     public static final String MSG_NAO_ENCONTRADO = "Execução de treino não encontrada. Id = ";
 
     public List<ExecucaoTreinoDTO> findAll() {
-        List<Treino> treinoList = repository.findAll();
-        return treinoList.stream().map(TreinoMapper::toDTO).toList();
+        List<ExecucaoTreino> treinoList = repository.findAll();
+        return treinoList.stream().map(ExecucaoTreinoMapper::toDTO).toList();
     }
 
-    public TreinoDTO findById(Long id) {
-        Treino obj = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
-        return TreinoMapper.toDTO(obj);
+    public ExecucaoTreinoDTO findById(Long id) {
+        ExecucaoTreino obj = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + id));
+        return ExecucaoTreinoMapper.toDTO(obj);
     }
 
-    public TreinoDTO insert(TreinoDTO dto) {
-        Treino novoTreino = gravarTreino(null, dto, true);
+    public ExecucaoTreinoDTO insert(ExecucaoTreinoDTO dto) {
+        ExecucaoTreino novoTreino = gravarTreino(null, dto, true);
         return findById(novoTreino.getId());
     }
 
@@ -67,18 +66,18 @@ public class ExecucaoTreinoService {
         }
     }
 
-    public TreinoDTO update(Long id, TreinoDTO obj) {
+    public ExecucaoTreinoDTO update(Long id, ExecucaoTreinoDTO obj) {
         obj.setIdTreino(id);
-        Treino treinoAtualizado = gravarTreino(id, obj, false);
+        ExecucaoTreino treinoAtualizado = gravarTreino(id, obj, false);
         return findById(treinoAtualizado.getId());
     }
 
-    private Treino gravarTreino(Long idTreino, TreinoDTO dto, Boolean insercao) {
-        Treino treino;
+    private ExecucaoTreino gravarTreino(Long idTreino, ExecucaoTreinoDTO dto, Boolean insercao) {
+        ExecucaoTreino treino;
         if (insercao) {
-            treino = new Treino();
+            treino = new ExecucaoTreino();
             treino.setId(null);
-            treino.setDataCriacao(LocalDate.now());
+            treino.setDataHoraExecucao(LocalDateTime.now());
         } else {
             treino = repository.findById(idTreino).orElseThrow(
                     () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + idTreino));
@@ -86,12 +85,12 @@ public class ExecucaoTreinoService {
 
         treino.setNome(dto.getNomeTreino());
         treino.getExercicios().clear();
-        for (TreinoExercicioDTO treinoExercicioDTO : dto.getExercicios()) {
-            TreinoExercicio treinoExercicio = criarTreinoExercicio(treino, treinoExercicioDTO, insercao);
+        for (ExecucaoTreinoExercicioDTO treinoExercicioDTO : dto.getExercicios()) {
+            ExecucaoTreinoExercicio treinoExercicio = criarTreinoExercicio(treino, treinoExercicioDTO, insercao);
             treino.addExercicio(treinoExercicio);
 
-            for (ExercicioSerieDTO serieDTO : treinoExercicioDTO.getSeries()) {
-                ExercicioSerie exercicioSerie = criarExercicioSerie(treinoExercicio, serieDTO, insercao);
+            for (ExecucaoExercicioSerieDTO serieDTO : treinoExercicioDTO.getSeries()) {
+                ExecucaoExercicioSerie exercicioSerie = criarExercicioSerie(treinoExercicio, serieDTO, insercao);
                 treinoExercicio.addSerie(exercicioSerie);
             }
         }
@@ -99,11 +98,11 @@ public class ExecucaoTreinoService {
         return repository.save(treino);
     }
 
-    private TreinoExercicio criarTreinoExercicio(Treino treino, TreinoExercicioDTO treinoExercicioDTO, Boolean insercao) {
-        TreinoExercicio treinoExercicio;
+    private ExecucaoTreinoExercicio criarTreinoExercicio(ExecucaoTreino treino, ExecucaoTreinoExercicioDTO treinoExercicioDTO, Boolean insercao) {
+        ExecucaoTreinoExercicio treinoExercicio;
         Long idTreinoExercicio = treinoExercicioDTO.getId();
         if (insercao || naoTemValor(idTreinoExercicio)) {
-            treinoExercicio = new TreinoExercicio();
+            treinoExercicio = new ExecucaoTreinoExercicio();
             treinoExercicio.setId(null);
         } else {
             treinoExercicio = treinoExercicioRepository.findById(idTreinoExercicio).orElseThrow(
@@ -123,11 +122,11 @@ public class ExecucaoTreinoService {
         return treinoExercicio;
     }
 
-    private ExercicioSerie criarExercicioSerie(TreinoExercicio treinoExercicio, ExercicioSerieDTO serieDTO, Boolean insercao) {
-        ExercicioSerie exercicioSerie;
+    private ExecucaoExercicioSerie criarExercicioSerie(ExecucaoTreinoExercicio treinoExercicio, ExecucaoExercicioSerieDTO serieDTO, Boolean insercao) {
+        ExecucaoExercicioSerie exercicioSerie;
         Long idExercicioSerie = serieDTO.getId();
         if (insercao || naoTemValor(serieDTO.getId())) {
-            exercicioSerie = new ExercicioSerie();
+            exercicioSerie = new ExecucaoExercicioSerie();
             exercicioSerie.setId(null);
         } else {
             exercicioSerie = exercicioSerieRepository.findById(idExercicioSerie).orElseThrow(

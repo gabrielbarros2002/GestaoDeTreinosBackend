@@ -22,7 +22,7 @@ public class ExecucaoExercicioSerie implements Serializable {
     @ManyToOne
     @NotNull(message = "Deve estar relacionado à um treino")
     @JoinColumn(name = "treino_exercicio_id", foreignKey = @ForeignKey(name = "fk_execucaoexercicioserie_execucaotreinoexercicio"))
-    private TreinoExercicio treinoExercicio;
+    private ExecucaoTreinoExercicio treinoExercicio;
 
     @NotNull(message = "O número da série é obrigatório")
     @Min(value = 1, message = "O número mínimo de série é 1")
@@ -41,7 +41,7 @@ public class ExecucaoExercicioSerie implements Serializable {
         iniciarAtributosEmBranco(this);
     }
 
-    public ExecucaoExercicioSerie(Long id, TreinoExercicio treinoExercicio, Integer numSerie, Integer repeticoes, BigDecimal carga) {
+    public ExecucaoExercicioSerie(Long id, ExecucaoTreinoExercicio treinoExercicio, Integer numSerie, Integer repeticoes, BigDecimal carga) {
         this.id = id;
         this.treinoExercicio = treinoExercicio;
         this.numSerie = numSerie;
@@ -58,11 +58,11 @@ public class ExecucaoExercicioSerie implements Serializable {
     }
 
     @JsonIgnore
-    public TreinoExercicio getTreinoExercicio() {
+    public ExecucaoTreinoExercicio getTreinoExercicio() {
         return treinoExercicio;
     }
 
-    public void setTreinoExercicio(TreinoExercicio treinoExercicio) {
+    public void setTreinoExercicio(ExecucaoTreinoExercicio treinoExercicio) {
         this.treinoExercicio = treinoExercicio;
     }
 

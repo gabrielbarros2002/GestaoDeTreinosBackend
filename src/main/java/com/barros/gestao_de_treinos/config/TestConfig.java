@@ -1,7 +1,10 @@
 package com.barros.gestao_de_treinos.config;
 
 import com.barros.gestao_de_treinos.entities.*;
-import com.barros.gestao_de_treinos.repositories.*;
+import com.barros.gestao_de_treinos.repositories.ExercicioRepository;
+import com.barros.gestao_de_treinos.repositories.GrupoMuscularRepository;
+import com.barros.gestao_de_treinos.repositories.TreinoRepository;
+import com.barros.gestao_de_treinos.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +14,6 @@ import org.springframework.context.annotation.Profile;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @Profile({"test", "dev"})
