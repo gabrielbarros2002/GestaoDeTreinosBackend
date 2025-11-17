@@ -12,7 +12,7 @@ import java.util.Objects;
 import static com.barros.gestao_de_treinos.utils.Util.iniciarAtributosEmBranco;
 
 @Entity
-@Table(name = "exercicio_series")
+@Table(name = "execucao_exercicio_series")
 public class ExecucaoExercicioSerie implements Serializable {
 
     @Id
@@ -22,7 +22,7 @@ public class ExecucaoExercicioSerie implements Serializable {
     @ManyToOne
     @NotNull(message = "Deve estar relacionado à um treino")
     @JoinColumn(name = "treino_exercicio_id", foreignKey = @ForeignKey(name = "fk_execucaoexercicioserie_execucaotreinoexercicio"))
-    private ExecucaoTreinoExercicio treinoExercicio;
+    private ExecucaoTreinoExercicio execucaoTreinoExercicio;
 
     @NotNull(message = "O número da série é obrigatório")
     @Min(value = 1, message = "O número mínimo de série é 1")
@@ -41,9 +41,9 @@ public class ExecucaoExercicioSerie implements Serializable {
         iniciarAtributosEmBranco(this);
     }
 
-    public ExecucaoExercicioSerie(Long id, ExecucaoTreinoExercicio treinoExercicio, Integer numSerie, Integer repeticoes, BigDecimal carga) {
+    public ExecucaoExercicioSerie(Long id, ExecucaoTreinoExercicio execucaoTreinoExercicio, Integer numSerie, Integer repeticoes, BigDecimal carga) {
         this.id = id;
-        this.treinoExercicio = treinoExercicio;
+        this.execucaoTreinoExercicio = execucaoTreinoExercicio;
         this.numSerie = numSerie;
         this.repeticoes = repeticoes;
         this.carga = carga;
@@ -58,12 +58,12 @@ public class ExecucaoExercicioSerie implements Serializable {
     }
 
     @JsonIgnore
-    public ExecucaoTreinoExercicio getTreinoExercicio() {
-        return treinoExercicio;
+    public ExecucaoTreinoExercicio getExecucaoTreinoExercicio() {
+        return execucaoTreinoExercicio;
     }
 
-    public void setTreinoExercicio(ExecucaoTreinoExercicio treinoExercicio) {
-        this.treinoExercicio = treinoExercicio;
+    public void setExecucaoTreinoExercicio(ExecucaoTreinoExercicio execucaoTreinoExercicio) {
+        this.execucaoTreinoExercicio = execucaoTreinoExercicio;
     }
 
     public Integer getNumSerie() {
@@ -94,19 +94,19 @@ public class ExecucaoExercicioSerie implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ExecucaoExercicioSerie that = (ExecucaoExercicioSerie) o;
-        return Objects.equals(id, that.id) && Objects.equals(treinoExercicio, that.treinoExercicio) && Objects.equals(numSerie, that.numSerie) && Objects.equals(repeticoes, that.repeticoes) && Objects.equals(carga, that.carga);
+        return Objects.equals(id, that.id) && Objects.equals(execucaoTreinoExercicio, that.execucaoTreinoExercicio) && Objects.equals(numSerie, that.numSerie) && Objects.equals(repeticoes, that.repeticoes) && Objects.equals(carga, that.carga);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, treinoExercicio, numSerie, repeticoes, carga);
+        return Objects.hash(id, execucaoTreinoExercicio, numSerie, repeticoes, carga);
     }
 
     @Override
     public String toString() {
         return "ExercicioSerie{" +
                 "id=" + id +
-                ", treinoExercicio=" + treinoExercicio +
+                ", treinoExercicio=" + execucaoTreinoExercicio +
                 ", numSerie=" + numSerie +
                 ", repeticoes=" + repeticoes +
                 ", carga=" + carga +

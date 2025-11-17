@@ -13,9 +13,9 @@ public class ExecucaoTreinoMapper {
 
     public static ExecucaoTreinoDTO toDTO(ExecucaoTreino entity) {
         ExecucaoTreinoDTO dto = new ExecucaoTreinoDTO();
-        dto.setIdTreino(entity.getId());
+        dto.setIdExecucaoTreino(entity.getId());
 
-        dto.setNomeTreino(entity.getNome());
+        dto.setNomeExecucaoTreino(entity.getNome());
         dto.setDataHoraExecucao(entity.getDataHoraExecucao());
 
         dto.setExercicios(entity.getExercicios().stream().map(ExecucaoTreinoExercicioMapper::toDTO).toList());
@@ -25,9 +25,9 @@ public class ExecucaoTreinoMapper {
 
     public static ExecucaoTreino toEntity(ExecucaoTreinoDTO dto) {
         ExecucaoTreino entity = new ExecucaoTreino();
-        entity.setId(temValor(dto.getIdTreino()) ? dto.getIdTreino() : null);
+        entity.setId(temValor(dto.getIdExecucaoTreino()) ? dto.getIdExecucaoTreino() : null);
 
-        entity.setNome(dto.getNomeTreino());
+        entity.setNome(dto.getNomeExecucaoTreino());
         entity.setDataHoraExecucao(dto.getDataHoraExecucao());
 
         List<ExecucaoTreinoExercicio> exercicios = dto.getExercicios().stream()

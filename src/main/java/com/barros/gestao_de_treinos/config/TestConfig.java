@@ -1,10 +1,7 @@
 package com.barros.gestao_de_treinos.config;
 
 import com.barros.gestao_de_treinos.entities.*;
-import com.barros.gestao_de_treinos.repositories.ExercicioRepository;
-import com.barros.gestao_de_treinos.repositories.GrupoMuscularRepository;
-import com.barros.gestao_de_treinos.repositories.TreinoRepository;
-import com.barros.gestao_de_treinos.repositories.UsuarioRepository;
+import com.barros.gestao_de_treinos.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Configuration
@@ -30,6 +28,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private TreinoRepository treinoRepository;
+
+    @Autowired
+    private ExecucaoTreinoRepository execucaoTreinoRepository;
 
     @Override
     @Transactional
@@ -539,6 +540,148 @@ public class TestConfig implements CommandLineRunner {
 
         treinoRepository.saveAll(Arrays.asList(treinoAvancadoA, treinoAvancadoB, treinoAvancadoC, treinoFullBodyIntensivo, treinoForcaSuperior,
                 treinoHipertrofiaInferior, treinoFuncionalCompleto, treinoResistenciaMuscular, treinoDefinicaoABC, treinoPreparatorioFisico));
+
+
+        // Execuções de treino
+
+        // Treino avançado A - Peito/Tríceps
+        ExecucaoTreino execTreinoAvancadoA = new ExecucaoTreino(null, "Treino Avançado A - Peito/Tríceps", LocalDateTime.now());
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoA1 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, supinoReto, 1, 120, "");
+        execTreExeTreinoAvancadoA1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA1, 1, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoA1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA1, 2, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoA1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA1, 3, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoA1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA1, 4, 12, new BigDecimal("50.00")));
+        execTreinoAvancadoA.addExercicio(execTreExeTreinoAvancadoA1);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoA2 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, roscaDireta, 2, 120, "");
+        execTreExeTreinoAvancadoA2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA2, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA2, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA2, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA2, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoA.addExercicio(execTreExeTreinoAvancadoA2);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoA3 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, crucifixoReto, 3, 120, "");
+        execTreExeTreinoAvancadoA3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA3, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA3, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA3, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA3, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoA.addExercicio(execTreExeTreinoAvancadoA3);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoA4 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, remadaCurvada, 4, 120, "");
+        execTreExeTreinoAvancadoA4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA4, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA4, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA4, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA4, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoA.addExercicio(execTreExeTreinoAvancadoA4);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoA5 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, tricepsTesta, 5, 120, "");
+        execTreExeTreinoAvancadoA5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA5, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA5, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA5, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA5, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoA.addExercicio(execTreExeTreinoAvancadoA5);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoA6 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, abdominalInfra, 6, 120, "");
+        execTreExeTreinoAvancadoA6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA6, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA6, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA6, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoA6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA6, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoA.addExercicio(execTreExeTreinoAvancadoA6);
+
+
+        // Treino Avançado B - Costas/Bíceps
+        ExecucaoTreino execTreinoAvancadoB = new ExecucaoTreino(null, "Treino Avançado B - Costas/Bíceps", LocalDateTime.now());
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoB1 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, puxadaFrente, 1, 120, "");
+        execTreExeTreinoAvancadoB1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB1, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoB1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB1, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoB1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB1, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoB1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB1, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoB.addExercicio(execTreExeTreinoAvancadoB1);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoB2 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, roscaPunho, 2, 120, "");
+        execTreExeTreinoAvancadoB2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB2, 1, 12, new BigDecimal("35.00")));
+        execTreExeTreinoAvancadoB2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB2, 2, 12, new BigDecimal("35.00")));
+        execTreExeTreinoAvancadoB2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB2, 3, 12, new BigDecimal("35.00")));
+        execTreExeTreinoAvancadoB2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB2, 4, 12, new BigDecimal("35.00")));
+        execTreinoAvancadoB.addExercicio(execTreExeTreinoAvancadoB2);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoB3 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, remadaCurvada, 3, 120, "");
+        execTreExeTreinoAvancadoB3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB3, 1, 12, new BigDecimal("45.00")));
+        execTreExeTreinoAvancadoB3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB3, 2, 12, new BigDecimal("45.00")));
+        execTreExeTreinoAvancadoB3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB3, 3, 12, new BigDecimal("45.00")));
+        execTreExeTreinoAvancadoB3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB3, 4, 12, new BigDecimal("45.00")));
+        execTreinoAvancadoB.addExercicio(execTreExeTreinoAvancadoB3);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoB4 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, roscaConcentrada, 4, 120, "");
+        execTreExeTreinoAvancadoB4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB4, 1, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoB4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB4, 2, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoB4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB4, 3, 10, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoB4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB4, 4, 10, new BigDecimal("40.00")));
+        execTreinoAvancadoB.addExercicio(execTreExeTreinoAvancadoB4);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoB5 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, roscaMartelo, 5, 120, "");
+        execTreExeTreinoAvancadoB5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB5, 1, 12, new BigDecimal("35.00")));
+        execTreExeTreinoAvancadoB5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB5, 2, 12, new BigDecimal("35.00")));
+        execTreExeTreinoAvancadoB5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB5, 3, 12, new BigDecimal("35.00")));
+        execTreExeTreinoAvancadoB5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB5, 4, 12, new BigDecimal("35.00")));
+        execTreinoAvancadoB.addExercicio(execTreExeTreinoAvancadoB5);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoB6 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, panturrilhaSentado, 6, 120, "");
+        execTreExeTreinoAvancadoB6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB6, 1, 15, new BigDecimal("25.00")));
+        execTreExeTreinoAvancadoB6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB6, 2, 15, new BigDecimal("25.00")));
+        execTreExeTreinoAvancadoB6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB6, 3, 15, new BigDecimal("25.00")));
+        execTreExeTreinoAvancadoB6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB6, 4, 15, new BigDecimal("25.00")));
+        execTreinoAvancadoB.addExercicio(execTreExeTreinoAvancadoB6);
+
+
+        // Treino Avançado C - Pernas/Ombros
+        ExecucaoTreino execTreinoAvancadoC = new ExecucaoTreino(null, "Treino Avançado C - Pernas/Ombros", LocalDateTime.now());
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoC1 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, agachamentoLivre, 1, 120, "");
+        execTreExeTreinoAvancadoC1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC1, 1, 12, new BigDecimal("70.00")));
+        execTreExeTreinoAvancadoC1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC1, 2, 12, new BigDecimal("70.00")));
+        execTreExeTreinoAvancadoC1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC1, 3, 12, new BigDecimal("70.00")));
+        execTreExeTreinoAvancadoC1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC1, 4, 12, new BigDecimal("70.00")));
+        execTreinoAvancadoC.addExercicio(execTreExeTreinoAvancadoC1);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoC2 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, remadaAlta, 2, 120, "");
+        execTreExeTreinoAvancadoC2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC2, 1, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoC2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC2, 2, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoC2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC2, 3, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoC2.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC2, 4, 12, new BigDecimal("50.00")));
+        execTreinoAvancadoC.addExercicio(execTreExeTreinoAvancadoC2);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoC3 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, cadeiraFlexora, 3, 120, "");
+        execTreExeTreinoAvancadoC3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC3, 1, 12, new BigDecimal("45.00")));
+        execTreExeTreinoAvancadoC3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC3, 2, 12, new BigDecimal("45.00")));
+        execTreExeTreinoAvancadoC3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC3, 3, 12, new BigDecimal("45.00")));
+        execTreExeTreinoAvancadoC3.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC3, 4, 12, new BigDecimal("45.00")));
+        execTreinoAvancadoC.addExercicio(execTreExeTreinoAvancadoC3);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoC4 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, elevacaoLateral, 4, 120, "");
+        execTreExeTreinoAvancadoC4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC4, 1, 12, new BigDecimal("20.00")));
+        execTreExeTreinoAvancadoC4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC4, 2, 12, new BigDecimal("20.00")));
+        execTreExeTreinoAvancadoC4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC4, 3, 12, new BigDecimal("20.00")));
+        execTreExeTreinoAvancadoC4.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC4, 4, 12, new BigDecimal("20.00")));
+        execTreinoAvancadoC.addExercicio(execTreExeTreinoAvancadoC4);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoC5 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, elevacaoPelvica, 5, 120, "");
+        execTreExeTreinoAvancadoC5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC5, 1, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoC5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC5, 2, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoC5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC5, 3, 12, new BigDecimal("50.00")));
+        execTreExeTreinoAvancadoC5.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC5, 4, 12, new BigDecimal("50.00")));
+        execTreinoAvancadoC.addExercicio(execTreExeTreinoAvancadoC5);
+
+        ExecucaoTreinoExercicio execTreExeTreinoAvancadoC6 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, gluteoNaPolia, 6, 120, "");
+        execTreExeTreinoAvancadoC6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC6, 1, 12, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoC6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC6, 2, 12, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoC6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC6, 3, 12, new BigDecimal("40.00")));
+        execTreExeTreinoAvancadoC6.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC6, 4, 12, new BigDecimal("40.00")));
+        execTreinoAvancadoC.addExercicio(execTreExeTreinoAvancadoC6);
+
+        execucaoTreinoRepository.saveAll(Arrays.asList(execTreinoAvancadoA, execTreinoAvancadoB, execTreinoAvancadoC));
 
         System.out.println("Dados iniciais carregados com sucesso!");
     }

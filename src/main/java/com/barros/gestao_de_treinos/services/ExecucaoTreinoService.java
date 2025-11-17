@@ -67,7 +67,7 @@ public class ExecucaoTreinoService {
     }
 
     public ExecucaoTreinoDTO update(Long id, ExecucaoTreinoDTO obj) {
-        obj.setIdTreino(id);
+        obj.setIdExecucaoTreino(id);
         ExecucaoTreino treinoAtualizado = gravarTreino(id, obj, false);
         return findById(treinoAtualizado.getId());
     }
@@ -83,7 +83,7 @@ public class ExecucaoTreinoService {
                     () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + idTreino));
         }
 
-        treino.setNome(dto.getNomeTreino());
+        treino.setNome(dto.getNomeExecucaoTreino());
         treino.getExercicios().clear();
         for (ExecucaoTreinoExercicioDTO treinoExercicioDTO : dto.getExercicios()) {
             ExecucaoTreinoExercicio treinoExercicio = criarTreinoExercicio(treino, treinoExercicioDTO, insercao);
@@ -109,7 +109,7 @@ public class ExecucaoTreinoService {
                     () -> new ResourceNotFoundException(TreinoExercicioService.MSG_NAO_ENCONTRADO + idTreinoExercicio));
         }
 
-        treinoExercicio.setTreino(treino);
+        treinoExercicio.setExecucaoTreino(treino);
 
         Long idExercicio = treinoExercicioDTO.getIdExercicio();
         Exercicio exercicio = exercicioRepository.findById(idExercicio).orElseThrow(
@@ -136,7 +136,7 @@ public class ExecucaoTreinoService {
         exercicioSerie.setNumSerie(serieDTO.getNumSerie());
         exercicioSerie.setCarga(serieDTO.getCarga());
         exercicioSerie.setRepeticoes(serieDTO.getRepeticoes());
-        exercicioSerie.setTreinoExercicio(treinoExercicio);
+        exercicioSerie.setExecucaoTreinoExercicio(treinoExercicio);
 
         return exercicioSerie;
     }

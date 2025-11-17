@@ -12,7 +12,7 @@ import java.util.Objects;
 import static com.barros.gestao_de_treinos.utils.Util.iniciarAtributosEmBranco;
 
 @Entity
-@Table(name = "treino_exercicios")
+@Table(name = "execucao_treino_exercicios")
 public class ExecucaoTreinoExercicio implements Serializable {
 
     @Id
@@ -22,7 +22,7 @@ public class ExecucaoTreinoExercicio implements Serializable {
     @ManyToOne
     @NotNull(message = "Deve estar relacionado à um treino")
     @JoinColumn(name = "treino_id", foreignKey = @ForeignKey(name = "fk_execucaotreinoexercicio_execucaotreino"))
-    private ExecucaoTreino treino;
+    private ExecucaoTreino execucaoTreino;
 
     @ManyToOne
     @NotNull(message = "Deve estar relacionado à um exercício")
@@ -49,6 +49,15 @@ public class ExecucaoTreinoExercicio implements Serializable {
         iniciarAtributosEmBranco(this);
     }
 
+    public ExecucaoTreinoExercicio(Long id, ExecucaoTreino execucaoTreino, Exercicio exercicio, Integer ordem, Integer descansoSegundos, String observacao) {
+        this.id = id;
+        this.execucaoTreino = execucaoTreino;
+        this.exercicio = exercicio;
+        this.ordem = ordem;
+        this.descansoSegundos = descansoSegundos;
+        this.observacao = observacao;
+    }
+
     public Long getId() {
         return id;
     }
@@ -57,12 +66,12 @@ public class ExecucaoTreinoExercicio implements Serializable {
         this.id = id;
     }
 
-    public ExecucaoTreino getTreino() {
-        return treino;
+    public ExecucaoTreino getExecucaoTreino() {
+        return execucaoTreino;
     }
 
-    public void setTreino(ExecucaoTreino treino) {
-        this.treino = treino;
+    public void setExecucaoTreino(ExecucaoTreino execucaoTreino) {
+        this.execucaoTreino = execucaoTreino;
     }
 
     public Exercicio getExercicio() {
@@ -125,7 +134,7 @@ public class ExecucaoTreinoExercicio implements Serializable {
     public String toString() {
         return "ExecucaoTreinoExercicio{" +
                 "id=" + id +
-                ", treino=" + treino +
+                ", treino=" + execucaoTreino +
                 ", exercicio=" + exercicio +
                 ", ordem=" + ordem +
                 ", descansoSegundos=" + descansoSegundos +

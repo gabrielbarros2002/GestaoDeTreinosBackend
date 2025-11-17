@@ -7,8 +7,8 @@ import static com.barros.gestao_de_treinos.utils.Util.iniciarAtributosEmBranco;
 
 public class ExecucaoTreinoDTO {
 
-    private Long idTreino;
-    private String nomeTreino;
+    private Long idExecucaoTreino;
+    private String nomeExecucaoTreino;
     private LocalDateTime dataHoraExecucao;
     private List<ExecucaoTreinoExercicioDTO> exercicios;
 
@@ -16,20 +16,20 @@ public class ExecucaoTreinoDTO {
         iniciarAtributosEmBranco(this);
     }
 
-    public Long getIdTreino() {
-        return idTreino;
+    public Long getIdExecucaoTreino() {
+        return idExecucaoTreino;
     }
 
-    public void setIdTreino(Long idTreino) {
-        this.idTreino = idTreino;
+    public void setIdExecucaoTreino(Long idExecucaoTreino) {
+        this.idExecucaoTreino = idExecucaoTreino;
     }
 
-    public String getNomeTreino() {
-        return nomeTreino;
+    public String getNomeExecucaoTreino() {
+        return nomeExecucaoTreino;
     }
 
-    public void setNomeTreino(String nomeTreino) {
-        this.nomeTreino = nomeTreino;
+    public void setNomeExecucaoTreino(String nomeExecucaoTreino) {
+        this.nomeExecucaoTreino = nomeExecucaoTreino;
     }
 
     public LocalDateTime getDataHoraExecucao() {

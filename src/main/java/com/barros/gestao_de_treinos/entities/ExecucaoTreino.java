@@ -28,11 +28,17 @@ public class ExecucaoTreino implements Serializable {
     @Column
     private LocalDateTime dataHoraExecucao;
 
-    @NotNull(message = "O treino deve pelo menos um exercício")
+    @NotNull(message = "O treino deve pelo menos uma execução exercício")
     @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExecucaoTreinoExercicio> exercicios = new ArrayList<>();
 
     public ExecucaoTreino() {
+    }
+
+    public ExecucaoTreino(Long id, String nome, LocalDateTime dataHoraExecucao) {
+        this.id = id;
+        this.nome = nome;
+        this.dataHoraExecucao = dataHoraExecucao;
     }
 
     public Long getId() {

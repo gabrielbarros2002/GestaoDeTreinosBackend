@@ -13,7 +13,7 @@ public class ExecucaoTreinoExercicioMapper {
         ExecucaoTreinoExercicioDTO dto = new ExecucaoTreinoExercicioDTO();
         dto.setId(entity.getId());
 
-        dto.setIdTreino(entity.getTreino().getId());
+        dto.setIdExecucaoTreino(entity.getExecucaoTreino().getId());
         dto.setIdExercicio(entity.getExercicio().getId());
         dto.setNomeExercicio(entity.getExercicio().getNome());
         dto.setNomeGrupoMuscular(entity.getExercicio().getGrupoMuscular().getNome());
@@ -32,8 +32,8 @@ public class ExecucaoTreinoExercicioMapper {
         entity.setId(temValor(dto.getId()) ? dto.getId() : null);
 
         ExecucaoTreino treino = new ExecucaoTreino();
-        treino.setId(dto.getIdTreino());
-        entity.setTreino(treino);
+        treino.setId(dto.getIdExecucaoTreino());
+        entity.setExecucaoTreino(treino);
 
         Exercicio exercicio = new Exercicio();
         exercicio.setId(dto.getIdExercicio());
