@@ -14,7 +14,7 @@ public class ExecucaoTreinoExercicioDTO {
     private Integer ordem;
     private Integer descansoSegundos;
     private String observacao;
-    private List<ExercicioSerieDTO> series;
+    private List<ExecucaoExercicioSerieDTO> series;
 
     public ExecucaoTreinoExercicioDTO() {
         iniciarAtributosEmBranco(this);
@@ -84,11 +84,11 @@ public class ExecucaoTreinoExercicioDTO {
         this.observacao = observacao;
     }
 
-    public List<ExercicioSerieDTO> getSeries() {
+    public List<ExecucaoExercicioSerieDTO> getSeries() {
         return series;
     }
 
-    public void setSeries(List<ExercicioSerieDTO> series) {
+    public void setSeries(List<ExecucaoExercicioSerieDTO> series) {
         this.series = series;
     }
 }

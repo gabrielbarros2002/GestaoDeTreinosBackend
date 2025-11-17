@@ -10,7 +10,7 @@ public class ExecucaoTreinoDTO {
     private Long idTreino;
     private String nomeTreino;
     private LocalDateTime dataHoraExecucao;
-    private List<ExecucaoExercicioSerieDTO> exercicios;
+    private List<ExecucaoTreinoExercicioDTO> exercicios;
 
     public ExecucaoTreinoDTO() {
         iniciarAtributosEmBranco(this);
@@ -40,11 +40,11 @@ public class ExecucaoTreinoDTO {
         this.dataHoraExecucao = dataHoraExecucao;
     }
 
-    public List<ExecucaoExercicioSerieDTO> getExercicios() {
+    public List<ExecucaoTreinoExercicioDTO> getExercicios() {
         return exercicios;
     }
 
-    public void setExercicios(List<ExecucaoExercicioSerieDTO> exercicios) {
+    public void setExercicios(List<ExecucaoTreinoExercicioDTO> exercicios) {
         this.exercicios = exercicios;
     }
 }

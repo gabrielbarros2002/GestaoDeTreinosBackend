@@ -1,5 +1,6 @@
 package com.barros.gestao_de_treinos.services;
 
+import com.barros.gestao_de_treinos.DTOs.ExecucaoTreinoDTO;
 import com.barros.gestao_de_treinos.DTOs.ExercicioSerieDTO;
 import com.barros.gestao_de_treinos.DTOs.TreinoDTO;
 import com.barros.gestao_de_treinos.DTOs.TreinoExercicioDTO;
@@ -39,9 +40,9 @@ public class ExecucaoTreinoService {
     @Autowired
     private TreinoExercicioRepository treinoExercicioRepository;
 
-    public static final String MSG_NAO_ENCONTRADO = "Treino não encontrado. Id = ";
+    public static final String MSG_NAO_ENCONTRADO = "Execução de treino não encontrada. Id = ";
 
-    public List<TreinoDTO> findAll() {
+    public List<ExecucaoTreinoDTO> findAll() {
         List<Treino> treinoList = repository.findAll();
         return treinoList.stream().map(TreinoMapper::toDTO).toList();
     }
