@@ -2,7 +2,6 @@ package com.barros.gestao_de_treinos.mappers;
 
 import com.barros.gestao_de_treinos.DTOs.ExercicioSerieDTO;
 import com.barros.gestao_de_treinos.entities.ExercicioSerie;
-import com.barros.gestao_de_treinos.entities.TreinoExercicio;
 
 import static com.barros.gestao_de_treinos.utils.Util.temValor;
 
