@@ -51,4 +51,10 @@ public class ExecucaoTreinoResource {
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ExecucaoTreinoDTO>> findByUsuario(@PathVariable Long usuarioId) {
+        List<ExecucaoTreinoDTO> lista = service.findByUsuario(usuarioId);
+        return ResponseEntity.ok(lista);
+    }
 }

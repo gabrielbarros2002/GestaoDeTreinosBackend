@@ -141,4 +141,9 @@ public class ExecucaoTreinoService {
         return exercicioSerie;
     }
 
+    public List<ExecucaoTreinoDTO> findByUsuario(Long usuarioId) {
+        List<ExecucaoTreino> execucaoTreinoList = repository.findByUsuarioId(usuarioId);
+        return execucaoTreinoList.stream().map(ExecucaoTreinoMapper::toDTO).toList();
+    }
+
 }
