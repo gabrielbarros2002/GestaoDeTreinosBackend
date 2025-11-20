@@ -21,7 +21,7 @@ public class ExecucaoTreinoExercicio implements Serializable {
 
     @ManyToOne
     @NotNull(message = "Deve estar relacionado à um treino")
-    @JoinColumn(name = "treino_id", foreignKey = @ForeignKey(name = "fk_execucaotreinoexercicio_execucaotreino"))
+    @JoinColumn(name = "execucao_treino_id", foreignKey = @ForeignKey(name = "fk_execucaotreinoexercicio_execucaotreino"))
     private ExecucaoTreino execucaoTreino;
 
     @ManyToOne
@@ -42,7 +42,7 @@ public class ExecucaoTreinoExercicio implements Serializable {
     private String observacao;
 
     @NotNull(message = "O exercício deve ter pelo menos uma série")
-    @OneToMany(mappedBy = "treinoExercicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "execucaoTreinoExercicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExecucaoExercicioSerie> series = new ArrayList<>();
 
     public ExecucaoTreinoExercicio() {

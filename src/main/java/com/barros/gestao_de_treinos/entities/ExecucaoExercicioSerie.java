@@ -21,7 +21,7 @@ public class ExecucaoExercicioSerie implements Serializable {
 
     @ManyToOne
     @NotNull(message = "Deve estar relacionado à um treino")
-    @JoinColumn(name = "treino_exercicio_id", foreignKey = @ForeignKey(name = "fk_execucaoexercicioserie_execucaotreinoexercicio"))
+    @JoinColumn(name = "execucao_treino_exercicio_id", foreignKey = @ForeignKey(name = "fk_execucaoexercicioserie_execucaotreinoexercicio"))
     private ExecucaoTreinoExercicio execucaoTreinoExercicio;
 
     @NotNull(message = "O número da série é obrigatório")
