@@ -19,10 +19,15 @@ public class ExecucaoTreino implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "A execução do treino deve estar relacionada à um usuário")
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false, foreignKey = @ForeignKey(name = "fk_execucaotreino_usuario"))
+    private Usuario usuario;
+
     @NotBlank(message = "O nome do treino é obrigatório")
     @Size(min = 3, max = 100, message = "O nome deve ter entre {min} e {max} caracteres")
     @Column(nullable = false, length = 100)
-    private String nome;
+    private String nomeTreino;
 
     @NotNull(message = "A data e hora de execução é obrigatória")
     @Column
@@ -35,10 +40,11 @@ public class ExecucaoTreino implements Serializable {
     public ExecucaoTreino() {
     }
 
-    public ExecucaoTreino(Long id, String nome, LocalDateTime dataHoraExecucao) {
+    public ExecucaoTreino(Long id, String nomeTreino, LocalDateTime dataHoraExecucao, Usuario usuario) {
         this.id = id;
-        this.nome = nome;
+        this.nomeTreino = nomeTreino;
         this.dataHoraExecucao = dataHoraExecucao;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -49,12 +55,20 @@ public class ExecucaoTreino implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getNomeTreino() {
+        return nomeTreino;
+    }
+
+    public void setNomeTreino(String nomeTreino) {
+        this.nomeTreino = nomeTreino;
     }
 
     public LocalDateTime getDataHoraExecucao() {
@@ -93,9 +107,10 @@ public class ExecucaoTreino implements Serializable {
     public String toString() {
         return "ExecucaoTreino{" +
                 "id=" + id +
-                ", nome='" + nome + '\'' +
+                ", nome='" + nomeTreino + '\'' +
                 ", dataHoraExecucao=" + dataHoraExecucao +
                 ", exercicios=" + exercicios +
+                ", usuario=" + usuario +
                 '}';
     }
 }

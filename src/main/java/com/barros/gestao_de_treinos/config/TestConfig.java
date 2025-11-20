@@ -545,7 +545,7 @@ public class TestConfig implements CommandLineRunner {
         // Execuções de treino
 
         // Treino avançado A - Peito/Tríceps
-        ExecucaoTreino execTreinoAvancadoA = new ExecucaoTreino(null, "Treino Avançado A - Peito/Tríceps", LocalDateTime.now());
+        ExecucaoTreino execTreinoAvancadoA = new ExecucaoTreino(null, "Treino Avançado A - Peito/Tríceps", LocalDateTime.now(), usuario1);
 
         ExecucaoTreinoExercicio execTreExeTreinoAvancadoA1 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoA, supinoReto, 1, 120, "");
         execTreExeTreinoAvancadoA1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoA1, 1, 12, new BigDecimal("50.00")));
@@ -591,7 +591,7 @@ public class TestConfig implements CommandLineRunner {
 
 
         // Treino Avançado B - Costas/Bíceps
-        ExecucaoTreino execTreinoAvancadoB = new ExecucaoTreino(null, "Treino Avançado B - Costas/Bíceps", LocalDateTime.now());
+        ExecucaoTreino execTreinoAvancadoB = new ExecucaoTreino(null, "Treino Avançado B - Costas/Bíceps", LocalDateTime.now(), usuario1);
 
         ExecucaoTreinoExercicio execTreExeTreinoAvancadoB1 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoB, puxadaFrente, 1, 120, "");
         execTreExeTreinoAvancadoB1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoB1, 1, 10, new BigDecimal("40.00")));
@@ -637,7 +637,7 @@ public class TestConfig implements CommandLineRunner {
 
 
         // Treino Avançado C - Pernas/Ombros
-        ExecucaoTreino execTreinoAvancadoC = new ExecucaoTreino(null, "Treino Avançado C - Pernas/Ombros", LocalDateTime.now());
+        ExecucaoTreino execTreinoAvancadoC = new ExecucaoTreino(null, "Treino Avançado C - Pernas/Ombros", LocalDateTime.now(), usuario1);
 
         ExecucaoTreinoExercicio execTreExeTreinoAvancadoC1 = new ExecucaoTreinoExercicio(null, execTreinoAvancadoC, agachamentoLivre, 1, 120, "");
         execTreExeTreinoAvancadoC1.addSerie(new ExecucaoExercicioSerie(null, execTreExeTreinoAvancadoC1, 1, 12, new BigDecimal("70.00")));

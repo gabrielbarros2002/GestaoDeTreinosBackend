@@ -83,7 +83,7 @@ public class ExecucaoTreinoService {
                     () -> new ResourceNotFoundException(MSG_NAO_ENCONTRADO + idTreino));
         }
 
-        treino.setNome(dto.getNomeExecucaoTreino());
+        treino.setNomeTreino(dto.getNomeExecucaoTreino());
         treino.getExercicios().clear();
         for (ExecucaoTreinoExercicioDTO treinoExercicioDTO : dto.getExercicios()) {
             ExecucaoTreinoExercicio treinoExercicio = criarTreinoExercicio(treino, treinoExercicioDTO, insercao);
