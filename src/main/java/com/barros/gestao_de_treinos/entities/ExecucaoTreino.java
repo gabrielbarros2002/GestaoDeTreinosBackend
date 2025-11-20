@@ -29,7 +29,7 @@ public class ExecucaoTreino implements Serializable {
     private LocalDateTime dataHoraExecucao;
 
     @NotNull(message = "O treino deve pelo menos uma execução exercício")
-    @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "execucaoTreino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExecucaoTreinoExercicio> exercicios = new ArrayList<>();
 
     public ExecucaoTreino() {
