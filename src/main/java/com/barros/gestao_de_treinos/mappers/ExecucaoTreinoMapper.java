@@ -3,6 +3,7 @@ package com.barros.gestao_de_treinos.mappers;
 import com.barros.gestao_de_treinos.DTOs.ExecucaoTreinoDTO;
 import com.barros.gestao_de_treinos.entities.ExecucaoTreino;
 import com.barros.gestao_de_treinos.entities.ExecucaoTreinoExercicio;
+import com.barros.gestao_de_treinos.entities.Usuario;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,11 @@ public class ExecucaoTreinoMapper {
 
         entity.setNomeTreino(dto.getNomeExecucaoTreino());
         entity.setDataHoraExecucao(dto.getDataHoraExecucao());
+        entity.setUsuario(new Usuario(
+                dto.getIdUsuario(),
+                dto.getNomeUsuario(),
+                null, null, null
+        ));
 
         List<ExecucaoTreinoExercicio> exercicios = dto.getExercicios().stream()
                 .map(ExecucaoTreinoExercicioMapper::toEntity)

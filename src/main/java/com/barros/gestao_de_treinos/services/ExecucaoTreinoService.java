@@ -3,10 +3,7 @@ package com.barros.gestao_de_treinos.services;
 import com.barros.gestao_de_treinos.DTOs.ExecucaoExercicioSerieDTO;
 import com.barros.gestao_de_treinos.DTOs.ExecucaoTreinoDTO;
 import com.barros.gestao_de_treinos.DTOs.ExecucaoTreinoExercicioDTO;
-import com.barros.gestao_de_treinos.entities.ExecucaoExercicioSerie;
-import com.barros.gestao_de_treinos.entities.ExecucaoTreino;
-import com.barros.gestao_de_treinos.entities.ExecucaoTreinoExercicio;
-import com.barros.gestao_de_treinos.entities.Exercicio;
+import com.barros.gestao_de_treinos.entities.*;
 import com.barros.gestao_de_treinos.mappers.ExecucaoTreinoMapper;
 import com.barros.gestao_de_treinos.repositories.ExecucaoExercicioSerieRepository;
 import com.barros.gestao_de_treinos.repositories.ExecucaoTreinoExercicioRepository;
@@ -94,6 +91,11 @@ public class ExecucaoTreinoService {
                 treinoExercicio.addSerie(exercicioSerie);
             }
         }
+        treino.setUsuario(new Usuario(
+                dto.getIdUsuario(),
+                dto.getNomeUsuario(),
+                null, null, null
+        ));
 
         return repository.save(treino);
     }
